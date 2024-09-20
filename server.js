@@ -10,7 +10,7 @@ app.get('/',(req,res) => {
 
 
 
-app.listen(3000)//listen on port 3000
+app.listen(4000)//listen on port 4000
 const userRouter = require("./routes/users")
 
 app.use('/users',userRouter)
