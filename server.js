@@ -12,6 +12,8 @@ app.get('/',(req,res) => {
 
 app.listen(4000)//listen on port 4000
 const userRouter = require("./routes/users")
-
+const searchRouter = require("./routes/search")
 app.use('/users',userRouter)
+
+app.use('/search',searchRouter)
 
