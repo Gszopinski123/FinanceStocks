@@ -1,12 +1,17 @@
-const http = require('http');
+const express = require('express')
+const app = express()
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World!');
-});
+app.set('view engine', 'ejs')
+app.get('/',(req,res) => {
+    console.log('here')
+    //res.sendStatus(500).send('hi')//can chain status messages.
+    res.render("index", {text: "world"})
+})
 
-const port = 3000;
 
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
-});
+
+app.listen(3000)//listen on port 3000
+const userRouter = require("./routes/users")
+
+app.use('/users',userRouter)
+

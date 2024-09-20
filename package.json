@@ -1,0 +1,20 @@
+{
+  "name": "financestocks",
+  "version": "1.0.0",
+  "description": "This project will use a finance API to get relevant stock information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devStart": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
