@@ -7,7 +7,7 @@ router.get('/', (req,res)=> {
 })
 
 router.get('/new', (req,res)=> {
-    res.send("User new form", text | "World")
+    res.render("index")
 })
 
 module.exports = router

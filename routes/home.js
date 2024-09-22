@@ -27,7 +27,7 @@ async function collectData() {
 }
 router.get('/',async(req,res) =>{
     var data = await collectData()
-    res.send(`My Stocks!${data['ticker']}`)
+    res.render("index",{text: JSON.stringify(data)})
 })
 
 module.exports = router

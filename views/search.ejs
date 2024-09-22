@@ -10,7 +10,11 @@
     </nav>
     <body>
         <p>
-            <%= locals.text%>
+            <form method='get' action="/search">
+                <input type="text" id="search" name="search"></input>
+                <input type="submit" value="Search"></input>
+            </form>
+
         </p>
     </body>
 </html>
