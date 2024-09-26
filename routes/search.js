@@ -3,12 +3,14 @@ const router = express.Router()
 
 router.use(express.urlencoded({ extended: true })); 
 router.get('/',async(req,res)=> {
-    console.log(req.query.search)
+    //console.log(req.query.search)//endDate startDate
+    let inputField =[`${req.query.search}`.toUpperCase(),`${req.query.startDate}`,`${req.query.endDate}`]
     let text
     let info
     if (req.query.search) {
         searchTicker= `${req.query.search}`.toUpperCase()
-        var url =`https://api.polygon.io/v2/aggs/ticker/${searchTicker}/range/1/day/2024-06-23/2024-09-23?adjusted=true&sort=desc&limit=50000&apiKey=8ukN3Z4dvAETRsn6s_UVpmYrce76oiOX`
+        console.log(inputField[1],inputField[2])
+        var url =`https://api.polygon.io/v2/aggs/ticker/${inputField[0].toUpperCase()}/range/1/day/${inputField[1]}/${inputField[2]}?adjusted=true&sort=desc&limit=50000&apiKey=8ukN3Z4dvAETRsn6s_UVpmYrce76oiOX`
         try {
             const response = await fetch(url)
             if (!response.ok) {
@@ -22,10 +24,11 @@ router.get('/',async(req,res)=> {
             } else {
                 text = `There were no Stock/bond with the ticker ${json.ticker}`
             }
+            res.render("index", {text: text,info: info})
         } catch (error) {
             console.log(error)
-        }
-        res.render("index", {text: text,info: info})
+            res.render("search",{text:"The Search Failed! Try again.",})
+        } 
     } else {
         res.render("search",{text:"This is the search page!",})
     }

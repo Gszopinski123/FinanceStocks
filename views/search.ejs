@@ -11,10 +11,12 @@
     <body>
         <p>
             <form method='get' action="/search">
-                <input type="text" id="search" name="search"></input>
+                <input type="text" id="search" name="search" placeholder="Ticker: (AAPL)"></input><br><br>
+                <input type="text" id="startDate" name="startDate" placeholder="Start date: (yyyy-mm-dd)"></input>
+                <input type="text" id="endDate" name="endDate" placeholder="End date: (yyyy-mm-dd)"></input>
                 <input type="submit" value="Search"></input>
             </form>
-
+            <%= locals.text || ""%>
         </p>
     </body>
 </html>
