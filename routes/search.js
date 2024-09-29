@@ -5,43 +5,10 @@ router.use(express.urlencoded({ extended: true }));
 router.get('/',async(req,res)=> {
     //console.log(req.query.search)//endDate startDate
     let inputField
-    if (currentDate.getMonth() < 10 || currentDate.getDate() < 10) {
-        if (currentDate.getMonth() <10 && currentDate.getDate() < 10) {
-            if (currentDate.getDate() == 1 && currentDate.getMonth() != 1){
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-0${currentDate.getMonth()-1}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-0${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else if (currentDate.getMonth() == 1) {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()-1}-${currentDate.getMonth()-1}-0${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-0${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-0${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            }
-        } else if (currentDate.getMonth() <10) {
-            if (currentDate.getDate() == 1 && currentDate.getMonth() != 1){
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-0${currentDate.getMonth()-1}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-0${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else if (currentDate.getMonth() == 1) {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()-1}-${currentDate.getMonth()-1}-0${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-0${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()}`]
-            }
-        } else if (currentDate.getDate() < 10) {
-            if (currentDate.getDate() == 1 && currentDate.getMonth() != 1){
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-${currentDate.getMonth()-1}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else if (currentDate.getMonth() == 1) {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()-1}-0${currentDate.getMonth()-1}-0${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`]
-            }
-        } else {
-            if (currentDate.getDate() == 1 && currentDate.getMonth() != 1){
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-${currentDate.getMonth()-1}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else if (currentDate.getMonth() == 1) {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()-1}-0${currentDate.getMonth()-1}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-${currentDate.getMonth()}-0${currentDate.getDate()}`]
-            } else {
-                inputField = [`${req.query.search}`.toUpperCase(),`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()-1}`,`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`]
-            }
-        }
-    }
     if (req.query.startDate && req.query.endDate) {
         inputField =[`${req.query.search}`.toUpperCase(),`${req.query.startDate}`,`${req.query.endDate}`]
+    } else {
+        inputField =[`${req.query.search}`.toUpperCase(),`2024-09-12`,`2024-09-13`]
     }
     let text
     let info
@@ -55,12 +22,21 @@ router.get('/',async(req,res)=> {
                 throw new Error(`Response status: ${response.status}`);
             }
             const json = await response.json();
-            //console.log(json)
+            let dates = []
+            let prices = []
             if (json.queryCount >= 1) {
+                for (let i = 0; i != json.results.length; i++) {
+                    dates.push([json.results[i]['t'],json.results[i]['o']])
+                    dates.push([json.results[i]['t']+43200000,json.results[i]['c']])
+                }
+                console.log(dates)
                 text = `There was ${json.queryCount} stock/bond with the ticker ${json.ticker}`
                 info = `This stock opened at ${json.results[json.results.length-1]['o']} on ${inputField[1]} and closed at $${json.results[0]['o']} on ${inputField[2]} 
                 there was a ${(((json.results[0]['c']-json.results[json.results.length-1]['o'])/json.results[json.results.length-1]['o'])*100).toFixed(3)}% change`
-                console.log(json.results);
+                const config = {
+                    type: "line",
+                    data : dates
+                }
             } else {
                 text = `There were no Stock/bond with the ticker ${json.ticker}`
             }
