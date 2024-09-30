@@ -8,10 +8,18 @@
         <a href="/search">Search</a>
         <a href="/users">Users</a>
     </nav>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../routes/search.js">
+        console.log(prices)
+    </script>
     <body>
         <p>
             <%= locals.text%>
             <%= locals.info || "" %>
-        </p>
+        </p><canvas id="myChart"></canvas>
+            
+        </canvas>
+        
+        
     </body>
 </html>

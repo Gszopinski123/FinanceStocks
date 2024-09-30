@@ -26,8 +26,10 @@ router.get('/',async(req,res)=> {
             let prices = []
             if (json.queryCount >= 1) {
                 for (let i = 0; i != json.results.length; i++) {
-                    dates.push([json.results[i]['t'],json.results[i]['o']])
-                    dates.push([json.results[i]['t']+43200000,json.results[i]['c']])
+                    dates.push(json.results[i]['t'])
+                    prices.push(json.results[i]['o'])
+                    dates.push(json.results[i]['t']+43200000)
+                    prices.push(json.results[i]['c'])
                 }
                 console.log(dates)
                 text = `There was ${json.queryCount} stock/bond with the ticker ${json.ticker}`
@@ -35,12 +37,12 @@ router.get('/',async(req,res)=> {
                 there was a ${(((json.results[0]['c']-json.results[json.results.length-1]['o'])/json.results[json.results.length-1]['o'])*100).toFixed(3)}% change`
                 const config = {
                     type: "line",
-                    data : dates
+                    data : prices
                 }
             } else {
                 text = `There were no Stock/bond with the ticker ${json.ticker}`
             }
-            res.render("index", {text: text,info: info})
+            res.render("index", {text: text,info: info, data:prices})
         } catch (error) {
             console.log(error)
             res.render("search",{text:"The Search Failed! Try again.",})
