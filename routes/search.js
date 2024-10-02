@@ -42,10 +42,26 @@ router.get('/',async(req,res)=> {
             } else {
                 text = `There were no Stock/bond with the ticker ${json.ticker}`
             }
-            res.render("index", {text: text,info: info, data:prices})
+               res.send(`<!DOCTYPE html>
+                    <html>
+                        <head>
+                            <link rel="stylesheet" src="style.css">
+                        </head>
+                        <nav>
+                            <a href="/home">Home</a>
+                            <a href="/search">Search</a>
+                            <a href="/users">Users</a>
+                        </nav>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script src="../routes/search.js">
+                        </script>
+                        <body>
+                        <p>config.data
+                        </body>
+                    </html>`)
         } catch (error) {
             console.log(error)
-            res.render("search",{text:"The Search Failed! Try again.",})
+            res.render("search",{text:"The Search Failed! Try again."})
         } 
     } else {
         res.render("search",{text:"This is the search page!",})
