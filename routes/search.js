@@ -1,3 +1,4 @@
+//import Chart from 'chart.js/auto'
 const express = require('express')
 const router = express.Router()
 const currentDate = new Date()
@@ -53,10 +54,17 @@ router.get('/',async(req,res)=> {
                             <a href="/users">Users</a>
                         </nav>
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                        <script src="../routes/search.js">
+                        <script>
+                        const myChart = new Chart(document.getElementById("ctx"), {
+                           type: 'line',
+                           data: {
+                           data: [${prices}]
+                           } 
+                        
+                        })
                         </script>
                         <body>
-                        <p>config.data
+                        <canvas id="ctx"></canvas>
                         </body>
                     </html>`)
         } catch (error) {

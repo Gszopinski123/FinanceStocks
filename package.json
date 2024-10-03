@@ -11,12 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cubejs-client/core": "^0.31.0",
+    "chart.js": "^4.4.4",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "node-fetch": "^3.3.2",
-    "request": "^2.88.2",
-    "@cubejs-client/core": "^0.31.0",
-    "chart.js": "^4.0.0"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.12",
