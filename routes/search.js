@@ -54,7 +54,7 @@ router.get('/',async(req,res)=> {
                             <a href="/users">Users</a>
                         </nav>
                         <div>
-  <canvas margin: auto width="100" height="10" id="myChart"></canvas>
+  <canvas margin="2in" width="100" height="10" id="myChart"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
